@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Reproductor reproductor = new Reproductor();
-        
+
         while (true) {
             System.out.println("=== SPOTIFY ===");
             System.out.println("1. Reproducción");
@@ -42,6 +42,16 @@ public class Main {
         }
     }
 
+    private static int obtenerIndiceValido(Scanner scanner, String mensaje, int max) {
+        System.out.print(mensaje + " (1-" + max + "): ");
+        int index = scanner.nextInt() - 1;
+        if (index >= 0 && index < max) {
+            return index;
+        }
+        System.out.println("Índice no válido.");
+        return -1;
+    }
+
     private static void menuReproduccion(Reproductor reproductor) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -64,13 +74,10 @@ public class Main {
                         System.out.print("No hay canción en reproducción. ¿Desea comenzar a reproducir? (S/N): ");
                         char respuesta = scanner.next().charAt(0);
                         if (respuesta == 'S' || respuesta == 's') {
-                            System.out.print("Seleccione canción (1-" + cancionesDisponibles.length + "): ");
-                            int cancionIndex = scanner.nextInt() - 1;
-                            if (cancionIndex >= 0 && cancionIndex < cancionesDisponibles.length) {
-                                reproductor.agregarCancionACola(cancionesDisponibles[cancionIndex]);
+                            int index = obtenerIndiceValido(scanner, "Seleccione canción", cancionesDisponibles.length);
+                            if (index != -1) {
+                                reproductor.agregarCancionACola(cancionesDisponibles[index]);
                                 reproductor.reproducir();
-                            } else {
-                                System.out.println("Índice de canción no válido.");
                             }
                         }
                     } else {
@@ -122,23 +129,13 @@ public class Main {
             switch (opcion) {
                 case 1:
                     reproductor.mostrarCancionesDisponibles();
-                    System.out.print("Seleccione la canción a añadir a favoritos: ");
-                    int favoritaIndex = scanner.nextInt() - 1;
-                    if (favoritaIndex >= 0 && favoritaIndex < cancionesDisponibles.length) {
-                        reproductor.añadirCancionAFavoritos(cancionesDisponibles[favoritaIndex]);
-                    } else {
-                        System.out.println("Índice de canción no válido.");
-                    }
+                    int favIndex = obtenerIndiceValido(scanner, "Seleccione la canción a añadir a favoritos", cancionesDisponibles.length);
+                    if (favIndex != -1) reproductor.añadirCancionAFavoritos(cancionesDisponibles[favIndex]);
                     break;
                 case 2:
                     reproductor.verCancionesFavoritas();
-                    System.out.print("Seleccione la canción a eliminar de favoritos: ");
-                    int eliminarFavoritaIndex = scanner.nextInt() - 1;
-                    if (eliminarFavoritaIndex >= 0 && eliminarFavoritaIndex < reproductor.numFavoritas) {
-                        reproductor.eliminarCancionDeFavoritos(reproductor.getCancionesFavoritas()[eliminarFavoritaIndex]);
-                    } else {
-                        System.out.println("Índice de canción no válido.");
-                    }
+                    int delFavIndex = obtenerIndiceValido(scanner, "Seleccione la canción a eliminar de favoritos", reproductor.numFavoritas);
+                    if (delFavIndex != -1) reproductor.eliminarCancionDeFavoritos(reproductor.getCancionesFavoritas()[delFavIndex]);
                     break;
                 case 3:
                     reproductor.verCancionesFavoritas();
@@ -151,41 +148,32 @@ public class Main {
                     break;
                 case 5:
                     reproductor.verPlaylists();
-                    System.out.print("Seleccione playlist: ");
-                    int playlistIndex = scanner.nextInt() - 1;
-                    reproductor.mostrarCancionesDisponibles();
-                    System.out.print("Seleccione canción a añadir: ");
-                    int cancionIndex = scanner.nextInt() - 1;
-                    reproductor.añadirCancionAPlaylist(playlistIndex, cancionesDisponibles[cancionIndex]);
+                    int playlistIndex = obtenerIndiceValido(scanner, "Seleccione playlist", reproductor.numPlaylists);
+                    if (playlistIndex != -1) {
+                        reproductor.mostrarCancionesDisponibles();
+                        int cancionIndex = obtenerIndiceValido(scanner, "Seleccione canción a añadir", cancionesDisponibles.length);
+                        if (cancionIndex != -1) reproductor.añadirCancionAPlaylist(playlistIndex, cancionesDisponibles[cancionIndex]);
+                    }
                     break;
                 case 6:
                     reproductor.verPlaylists();
-                    System.out.print("Seleccione playlist: ");
-                    int eliminarPlaylistIndex = scanner.nextInt() - 1;
-                    if (eliminarPlaylistIndex >= 0 && eliminarPlaylistIndex < reproductor.numPlaylists) {
-                        reproductor.playlists[eliminarPlaylistIndex].mostrarCanciones();
-                        System.out.print("Seleccione canción a eliminar: ");
-                        int cancionEliminarIndex = scanner.nextInt() - 1;
-                        if (cancionEliminarIndex >= 0 && cancionEliminarIndex < Main.cancionesDisponibles.length) {
-                            reproductor.playlists[eliminarPlaylistIndex].eliminarCancion(Main.cancionesDisponibles[cancionEliminarIndex]);
+                    int delPlaylistIndex = obtenerIndiceValido(scanner, "Seleccione playlist", reproductor.numPlaylists);
+                    if (delPlaylistIndex != -1) {
+                        reproductor.playlists[delPlaylistIndex].mostrarCanciones();
+                        int delCancionIndex = obtenerIndiceValido(scanner, "Seleccione canción a eliminar", cancionesDisponibles.length);
+                        if (delCancionIndex != -1) {
+                            reproductor.playlists[delPlaylistIndex].eliminarCancion(cancionesDisponibles[delCancionIndex]);
                             System.out.println("Canción eliminada de la playlist.");
-                        } else {
-                            System.out.println("Índice de canción no válido.");
                         }
-                    } else {
-                        System.out.println("Índice de playlist no válido.");
                     }
                     break;
                 case 7:
                     reproductor.verPlaylists();
                     break;
                 case 8:
-                    System.out.print("Seleccione playlist: ");
-                    int verPlaylistIndex = scanner.nextInt() - 1;
-                    if (verPlaylistIndex >= 0 && verPlaylistIndex < reproductor.numPlaylists) {
+                    int verPlaylistIndex = obtenerIndiceValido(scanner, "Seleccione playlist", reproductor.numPlaylists);
+                    if (verPlaylistIndex != -1) {
                         reproductor.playlists[verPlaylistIndex].mostrarCanciones();
-                    } else {
-                        System.out.println("Índice de playlist no válido.");
                     }
                     break;
                 case 9:
