@@ -1,7 +1,4 @@
-package entregas.reto11_10;
-
 public class List {
-
     private Node first = null;
     private Node last = null; 
     private int size = 0;  
@@ -10,27 +7,22 @@ public class List {
         return this.size;
     }
 
-   
     public boolean isEmpty() {
         return this.size == 0;
     }
 
-   
     public void insertEnd(String value) {
         Node newNode = new Node(value);
         if (this.first == null) {
-           
             this.first = newNode;
             this.last = newNode;
         } else {
-            
             this.last.setNext(newNode);
             this.last = newNode;  
         }
         this.size++;  
     }
 
-    
     public void insertFront(String value) {
         Node newNode = new Node(value);
         if (this.first == null) {
@@ -85,7 +77,6 @@ public class List {
     public int find(String value) {
         Node iterator = this.first;
         int index = 0;
-
         while (iterator != null) {
             if (iterator.getValue().equals(value)) {
                 return index;  
@@ -93,20 +84,7 @@ public class List {
             iterator = iterator.getNext();
             index++;
         }
-
         return -1;  
     }
-
-    public Node findNode(String value) {
-        Node iterator = this.first;
-
-        while (iterator != null) {
-            if (iterator.getValue().equals(value)) {
-                return iterator;  
-            }
-            iterator = iterator.getNext();
-        }
-
-        return null;  
-    }
 }
+    
