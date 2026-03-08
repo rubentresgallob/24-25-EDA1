@@ -88,7 +88,7 @@ class NodoCancion {
 
 class Reproductor {
     private ColaReproduccion cola;
-    private Historial historial;
+    
     private boolean modoAleatorio;
     private boolean modoRepetir;
     public Cancion cancionActual;
@@ -100,7 +100,7 @@ class Reproductor {
 
     public Reproductor() {
         this.cola = new ColaReproduccion();
-        this.historial = new Historial();
+        
         this.modoAleatorio = false;
         this.modoRepetir = false;
         this.playlists = new Playlist[10];
@@ -117,7 +117,7 @@ class Reproductor {
         }
         cancionAnterior = cancionActual;
         cancionActual = cola.siguienteCancion();
-        historial.agregarCancion(cancionActual);
+        
         System.out.println("▶ Reproduciendo: " + cancionActual);
     }
 
@@ -133,7 +133,7 @@ class Reproductor {
             System.out.println("▶ Reproduciendo: " + cancionAnterior);
             cancionActual = cancionAnterior;
             cancionAnterior = null;
-            historial.agregarCancion(cancionActual);
+            
         } else {
             System.out.println("No hay canción anterior para reproducir.");
         }
@@ -147,10 +147,6 @@ class Reproductor {
     public void activarModoRepetir() {
         modoRepetir = !modoRepetir;
         System.out.println("Modo repetir: " + (modoRepetir ? "Activado" : "Desactivado"));
-    }
-
-    public void mostrarHistorial() {
-        historial.mostrarHistorial();
     }
 
     public void agregarCancionACola(Cancion cancion) {
@@ -273,28 +269,5 @@ class ColaReproduccion {
 
     public boolean estaVacia() {
         return frente == null;
-    }
-}
-
-class Historial {
-    private NodoCancion cabeza;
-
-    public Historial() {
-        this.cabeza = null;
-    }
-
-    public void agregarCancion(Cancion cancion) {
-        NodoCancion nuevoNodo = new NodoCancion(cancion);
-        nuevoNodo.siguiente = cabeza;
-        cabeza = nuevoNodo;
-    }
-
-    public void mostrarHistorial() {
-        NodoCancion actual = cabeza;
-        System.out.println("HISTORIAL DE REPRODUCCIÓN:");
-        while (actual != null) {
-            System.out.println(actual.cancion);
-            actual = actual.siguiente;
-        }
     }
 }
