@@ -1,7 +1,4 @@
-package entregas.reto11_10;
-
 public class List {
-
     private Node first = null;
     private Node last = null; 
     private int size = 0;  
@@ -80,7 +77,6 @@ public class List {
     public int find(String value) {
         Node iterator = this.first;
         int index = 0;
-
         while (iterator != null) {
             if (iterator.getValue().equals(value)) {
                 return index;  
@@ -88,7 +84,6 @@ public class List {
             iterator = iterator.getNext();
             index++;
         }
-
         return -1;  
     }
-}
+}//
