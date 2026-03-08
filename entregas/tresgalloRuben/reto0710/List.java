@@ -10,27 +10,22 @@ public class List {
         return this.size;
     }
 
-   
     public boolean isEmpty() {
         return this.size == 0;
     }
 
-   
     public void insertEnd(String value) {
         Node newNode = new Node(value);
         if (this.first == null) {
-           
             this.first = newNode;
             this.last = newNode;
         } else {
-            
             this.last.setNext(newNode);
             this.last = newNode;  
         }
         this.size++;  
     }
 
-    
     public void insertFront(String value) {
         Node newNode = new Node(value);
         if (this.first == null) {
@@ -95,18 +90,5 @@ public class List {
         }
 
         return -1;  
-    }
-
-    public Node findNode(String value) {
-        Node iterator = this.first;
-
-        while (iterator != null) {
-            if (iterator.getValue().equals(value)) {
-                return iterator;  
-            }
-            iterator = iterator.getNext();
-        }
-
-        return null;  
     }
 }

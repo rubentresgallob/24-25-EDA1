@@ -1,8 +1,8 @@
 package entregas.tresgalloRuben.reto0710;
 
 class Ejemplo {
-    public static void main(String[] args) {
 
+    public static void main(String[] args) {
         List nephews = new List();
 
         viewLine(nephews);
@@ -17,7 +17,6 @@ class Ejemplo {
         viewLine(nephews);
 
         nephews.insertEnd("Luisito");
-
         System.out.println("Tamaño: " + nephews.size());
 
         nephews.deleteEnd();
@@ -27,13 +26,14 @@ class Ejemplo {
     }
 
     static void viewLine(List filaDeSobrinos) {
-        
         String[] larray = filaDeSobrinos.listAll();
+
         System.out.println("LA FILA" + "-".repeat(18));
-        for (String sobrino : larray){
+
+        for (String sobrino : larray) {
             System.out.println(sobrino);
         }
+
         System.out.println("-".repeat(25));
     }
 }
- 
